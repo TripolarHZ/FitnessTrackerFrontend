@@ -8,7 +8,6 @@ import {
 } from './User';
 import{
     RoutineIDActivities,
-    RoutinesDelete,
     RoutinesGet,
     RoutinesPatch,
     RoutinesPost
@@ -20,27 +19,29 @@ import{
 import{
     ActivitiesGet,
     ActivitiesPatch,
-    ActivitiesPost,
-    ActivityIDRoutines
+    ActivitiesPost
 } from './Acitivities';
 import Navbar1 from './Navbar1';
 import Navbar2 from './Navbar2';
 import Home from './Home';  
+import ActivitityIdRoutines from './Acitivities/ActivityID-Routines';
 
 const App = () => {
     const [activities, setActivities] = useState([]);
     const [activityId, setActivityId] = useState("");
     const [routines, setRoutines] = useState([]);
     const [routineId, setRoutineId] = useState("");
-    const [loggedIn, setLoggedIn] = useState(false);
+    const storedToken = localStorage.getItem('token');
+    const [loggedIn, setLoggedIn] = useState(!!storedToken);
     const [user, setUser] = useState('');
+    const [userId, setUserId] = useState('');
     const [token, setToken] = useState('');
 
     return <div className='app'>
-        {loggedIn?<Navbar2 setLoggedIn={setLoggedIn}/>:<Navbar1/>}
+        {loggedIn?<Navbar2 setLoggedIn={setLoggedIn} setUser={setUser} setToken={setToken}/>:<Navbar1/>}
         <Routes>
             <Route path = "/" element={<Home loggedIn={loggedIn} user={user}/>}></Route>
-            <Route path = "/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser} setToken={setToken}/>}></Route>
+            <Route path = "/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser} setUserId={setUserId} setToken={setToken}/>}></Route>
             <Route path = "/register" element={<Register />}></Route>
             <Route path = "/activities" element=
             {
@@ -55,7 +56,7 @@ const App = () => {
             }></Route>
             <Route path = "/routines" element=
             {
-                <RoutinesGet routines={routines} setRoutines={setRoutines} routineId={routineId} setRoutineId={setRoutineId} loggedIn={loggedIn} user={user} token={token}/>
+                <RoutinesGet routines={routines} setRoutines={setRoutines} setRoutineId={setRoutineId} loggedIn={loggedIn} userId={userId} token={token}/>
             }></Route>
             <Route path = "/create-routines" element =
             {
@@ -68,6 +69,10 @@ const App = () => {
             <Route path = "/me" element=
             {
                 <Me setRoutineId={setRoutineId} token={token} user={user}/>
+            }></Route>
+            <Route path = "/activity-routines" element=
+            {
+                <ActivitityIdRoutines activityId={activityId} setActivityId={setActivityId}/>
             }></Route>
         </Routes>
     </div>

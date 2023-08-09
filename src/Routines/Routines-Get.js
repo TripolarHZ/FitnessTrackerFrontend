@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const RoutinesGet = ({routines, setRoutines, routineId, setRoutineId, loggedIn, user, token}) => {
+const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn, userId, token}) => {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const RoutinesGet = ({routines, setRoutines, routineId, setRoutineId, loggedIn, 
             </div>
             {routines.filter((routine) => {
                 return search.toLowerCase() === '' ? routine : routine.name.toLowerCase().includes(search);
-                }).map(routine => ((routine.creatorId === user) && loggedIn) ? (<div className='routine' key={routine.id}>
+                }).map(routine => <div className='routine' key={routine.id}>
                     <h1>{routine.name}</h1>
                     <h2>Creator: {routine.creatorName}</h2>
                     <p className='goal'>Goal: {routine.goal}</p>
@@ -75,25 +75,7 @@ const RoutinesGet = ({routines, setRoutines, routineId, setRoutineId, loggedIn, 
                             </li>
                         )}
                     </ul>
-                    <Link to='/update-routines' onClick={()=>{setRoutineId(routine.id)}} style={{ padding: '14px 28px', backgroundColor: 'blue', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', transition: 'background-color 0.3s ease', textDecoration:'none', marginTop: '30px', width: '100px' }}>Edit</Link>
-                    <button type="button" className="btn btn-outline-danger" onClick={()=>deleteRoutine(routine.id)} style={{ padding: '14px 28px', backgroundColor: 'red', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', transition: 'background-color 0.3s ease',textDecoration:'none', width: '100px', marginLeft:'30px'}}>Delete</button>
-                </div>) : (<div className='routine' key={routine.id}>
-                    <h1>{routine.name}</h1>
-                    <h2>Creator: {routine.creatorName}</h2>
-                    <p className='goal'>Goal: {routine.goal}</p>
-                    <ul className='routineActivities'>
-                        {routine.activities.map(routineActivity => 
-                            <li className="routineActivity" key={routineActivity.id}>
-                                <div>
-                                    <h3>{routineActivity.name}</h3>
-                                    <p>{routineActivity.description}</p>
-                                    <p style={{color: 'orange'}}>Duration: {routineActivity.duration}</p>
-                                    <p style={{color: 'green'}}>Count: {routineActivity.count}</p>
-                                </div>
-                            </li>
-                        )}
-                    </ul>
-                </div>))
+                </div>)
             }
         </div>
     </>

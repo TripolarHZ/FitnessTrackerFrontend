@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
+import {ActivityIdRoutines} from './ActivityID-Routines';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
+
 
 const ActivitiesGet = ({activities, setActivities, setActivityId, loggedIn}) => {
     const [search, setSearch] = useState('');
@@ -19,6 +21,7 @@ const ActivitiesGet = ({activities, setActivities, setActivityId, loggedIn}) => 
             
                 console.log(result);
                 setActivities(result);
+                setActivityId(null);
                 return result
               } catch (err) {
                 console.error(err);
@@ -41,13 +44,13 @@ const ActivitiesGet = ({activities, setActivities, setActivityId, loggedIn}) => 
             {loggedIn ? activities.filter((activity) => {
                 return search.toLowerCase() === '' ? activity : activity.name.toLowerCase().includes(search);
                 }).map(activity => <div className='activity' key={activity.id}>
-                    <h1>{activity.name}</h1>
+                    <Link to='/activity-routines' onClick={setActivityId(activity.id)} style={{fontSize:'30px',color:'blue',padding:'10px', textDecoration:'none', textAlign: 'center', marginBottom:"40px"}}>{activity.name}</Link>
                     <p style={{marginBottom:'50px'}}>{activity.description}</p>
                     <Link to='/update-activities' onClick={()=>{setActivityId(activity.id)}} style={{ padding: '14px 28px', backgroundColor: 'blue', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', transition: 'background-color 0.3s ease', textDecoration:'none', marginTop: '30px', width: '100px' }}>Edit</Link>
                 </div>) : activities.filter((activity) => {
                 return search.toLowerCase() === '' ? activity : activity.name.toLowerCase().includes(search);
                 }).map(activity => <div className='activity' key={activity.id}>
-                    <h1>{activity.name}</h1>
+                    <Link to='/activity-routines' onClick={setActivityId(activity.id)} style={{fontSize:'30px',color:'blue',padding:'10px', textDecoration:'none', textAlign: 'center', marginBottom:"40px"}}>{activity.name}</Link>
                     <p style={{marginBottom:'50px'}}>{activity.description}</p>
                 </div>)
             }

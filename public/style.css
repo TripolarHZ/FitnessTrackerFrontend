@@ -182,3 +182,27 @@ body{
 .createRoutine form input:hover{
     border-bottom: 1px solid  #4CAF50;
 }
+
+.updateRoutine form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.updateRoutine form input{
+    padding: 12px;
+    margin-bottom: 20px; 
+    font-size: 16px; 
+    width: 400px; 
+    border: none; 
+    border-bottom: 1px solid #ddd;
+    outline: none;
+}
+
+.updateRoutine form input:focus{
+    border-bottom: 1px solid #8C8CF4;
+}
+
+.updateRoutine form input:hover{
+    border-bottom: 1px solid  #4CAF50;
+}

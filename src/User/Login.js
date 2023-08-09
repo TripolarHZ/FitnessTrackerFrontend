@@ -3,7 +3,7 @@ import {Link,Navigate} from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const Login = ({setLoggedIn,setUser,setToken}) => {
+const Login = ({setLoggedIn,setUser, setUserId, setToken}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [success, setSuccess] = useState(false);
@@ -30,9 +30,11 @@ const Login = ({setLoggedIn,setUser,setToken}) => {
         setSuccess(true);
         setResultMessage(result.message);
         setLoggedIn(true);
-        setUser(result.user.id);
+        setUser(result.user.username);
+        setUserId(result.user.id);
         setUsername('');
         setToken(result.token);
+        localStorage.setItem('token', result.token);
       }
       else{
         setSuccess(false);

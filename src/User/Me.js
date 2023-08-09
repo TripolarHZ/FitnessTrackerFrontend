@@ -5,7 +5,6 @@ const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
 const Me = ({setRoutineId, token, user}) => {
     const [routines, setRoutines] = useState([]);
-    const [messages, setMessages] = useState([]);
     const [username, setUsername] = useState("");
     const [id, setId] = useState("");
 
@@ -31,7 +30,7 @@ const Me = ({setRoutineId, token, user}) => {
       useEffect(() => {
         const myRoutines = async () => {
           try {
-            const response = await fetch(`${BASE_URL}/users/${username}/routines`, {
+            const response = await fetch(`${BASE_URL}/users/${user}/routines`, {
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -39,6 +38,7 @@ const Me = ({setRoutineId, token, user}) => {
             });
             const result = await response.json();
             setRoutines(result);
+            console.log(result);
           } catch (err) {
             console.error(err);
           }
@@ -71,8 +71,7 @@ const Me = ({setRoutineId, token, user}) => {
       <p style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: "20px"  }}>User ID: {id}</p>
       <h2 style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: "40px"  }}>My Routines:</h2>
       {
-        routines.map(routine => 
-          <div className='routine' key={routine.id}>
+        routines.map(routine => <div className='routine' key={routine.id}>
                     <h1>{routine.name}</h1>
                     <h2>Creator: {routine.creatorName}</h2>
                     <p className='goal'>Goal: {routine.goal}</p>
