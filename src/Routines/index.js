@@ -6,4 +6,3 @@ export { default as RoutinesPost} from './Routines-Post';
 
 
 
-

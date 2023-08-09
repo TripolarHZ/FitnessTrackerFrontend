@@ -1,8 +1,7 @@
 import React, { useState, } from 'react';
 import {Link,Navigate} from 'react-router-dom';
 
-const COHORT_NAME = '2303-ftb-et-web-pt';
-const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api/${COHORT_NAME}`;
+const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
 const Login = ({setLoggedIn,setUser,setToken}) => {
   const [username, setUsername] = useState('');
@@ -27,17 +26,17 @@ const Login = ({setLoggedIn,setUser,setToken}) => {
       const result = await response.json();
       console.log(result);
       setPressed(true);
-      if(result.success===true) {
+      if(result.message==="you're logged in!") {
         setSuccess(true);
-        setResultMessage(result.data.message);
+        setResultMessage(result.message);
         setLoggedIn(true);
         setUser(username);
         setUsername('');
-        setToken(result.data.token);
+        setToken(result.token);
       }
       else{
         setSuccess(false);
-        setResultMessage(result.error.message);
+        setResultMessage(result.message);
         setLoggedIn(false);
       }
       setPassword('');

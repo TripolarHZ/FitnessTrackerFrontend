@@ -1,8 +1,7 @@
 import React, { useState, } from 'react';
 import {Link} from 'react-router-dom';
 
-const COHORT_NAME = '2303-ftb-et-web-pt';
-const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api/${COHORT_NAME}`;
+const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
 const Register = () => {
   const [username, setUsername] = useState([]);
@@ -10,6 +9,7 @@ const Register = () => {
   const [success, setSuccess] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
   const [pressed, setPressed] = useState(false);
+
   const registerUser = async (ev) => {
     ev.preventDefault();
     try {
@@ -20,23 +20,21 @@ const Register = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user: {
             username: username,
             password: password
-          }
         })
       });
       const result = await response.json();
       console.log(result);
       setPressed(true);
-      if(result.success===true) {
+      if(result.message==="you're signed up!") {
         setSuccess(true);
-        setResultMessage(result.data.message);
+        setResultMessage(result.message);
         setUsername('');
       }
       else{
         setSuccess(false);
-        setResultMessage(result.error.message);
+        setResultMessage(result.message);
       }
       setPassword('');
     } catch (err) {

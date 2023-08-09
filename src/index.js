@@ -29,8 +29,10 @@ import Navbar2 from './Navbar2';
 import Home from './Home';  
 
 const App = () => {
-    const [posts, setPosts] = useState([]);
-    const [postId, setPostId] = useState(null);
+    const [activities, setActivities] = useState([]);
+    const [activityId, setActivityId] = useState("");
+    const [routines, setRoutines] = useState([]);
+    const [routineId, setRoutineId] = useState("");
     const [loggedIn, setLoggedIn] = useState(false);
     const [user, setUser] = useState('');
     const [token, setToken] = useState('');
@@ -41,7 +43,25 @@ const App = () => {
             <Route path = "/" element={<Home loggedIn={loggedIn} user={user}/>}></Route>
             <Route path = "/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser} setToken={setToken}/>}></Route>
             <Route path = "/register" element={<Register />}></Route>
-            <Route path = "/routines" element={<RoutinesGet posts={posts} setPosts={setPosts} postId={postId} setPostId={setPostId} loggedIn={loggedIn} user={user} token={token}/>}></Route>
+            <Route path = "/activities" element=
+            {
+                <ActivitiesGet activities={activities} setActivities={setActivities} setActivityId={setActivityId} loggedIn={loggedIn}/>
+            }></Route>
+            <Route path = "/create-activities" element =
+            {
+                <ActivitiesPost token={token}/>
+            }></Route>
+            <Route path = "/update-activities" element = {
+                <ActivitiesPatch activityId={activityId} setActivityId={setActivityId} token={token} />
+            }></Route>
+            <Route path = "/routines" element=
+            {
+                <RoutinesGet routines={routines} setRoutines={setRoutines} setRoutineId={setRoutineId} loggedIn={loggedIn}/>
+            }></Route>
+            <Route path = "/create-routines" element =
+            {
+                <RoutinesPost token={token}/>
+            }></Route>
         </Routes>
     </div>
 }
