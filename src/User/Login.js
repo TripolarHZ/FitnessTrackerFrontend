@@ -30,7 +30,7 @@ const Login = ({setLoggedIn,setUser,setToken}) => {
         setSuccess(true);
         setResultMessage(result.message);
         setLoggedIn(true);
-        setUser(username);
+        setUser(result.user.id);
         setUsername('');
         setToken(result.token);
       }

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn}) => {
+const RoutinesGet = ({routines, setRoutines, routineId, setRoutineId, loggedIn, user, token}) => {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
@@ -26,6 +26,26 @@ const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn}) => {
         fetchRoutines();
     },[]);
 
+    const deleteRoutine = async (routineIdToDelete) => {
+        try {
+            const response = await fetch(`${BASE_URL}/routines/${routineIdToDelete}`, {
+              method: "DELETE",
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            const result = await response.json();
+            console.log(result);
+            if(result.success===true){
+              const newRoutines = routines.filter(routine => routine.id !== routineIdToDelete);
+              setRoutines(newRoutines);
+            }
+          } catch (err) {
+            console.error(err);
+          }
+    }
+
     return <>
         <div className='routines'>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>
@@ -37,9 +57,9 @@ const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn}) => {
                 {loggedIn ? <Link to='/create-routines'style={{fontSize:'20px',color:'white',padding:'10px',backgroundColor:'coral',borderRadius:'10px',textDecoration:'none', textAlign: 'center', width:'300px', marginBottom:"40px"}} >CREATE NEW ROUTINE</Link> :
                 <div></div>}
             </div>
-            {loggedIn ? routines.filter((routine) => {
+            {routines.filter((routine) => {
                 return search.toLowerCase() === '' ? routine : routine.name.toLowerCase().includes(search);
-                }).map(routine => <div className='routine' key={routine.id}>
+                }).map(routine => ((routine.creatorId === user) && loggedIn) ? (<div className='routine' key={routine.id}>
                     <h1>{routine.name}</h1>
                     <h2>Creator: {routine.creatorName}</h2>
                     <p className='goal'>Goal: {routine.goal}</p>
@@ -56,9 +76,8 @@ const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn}) => {
                         )}
                     </ul>
                     <Link to='/update-routines' onClick={()=>{setRoutineId(routine.id)}} style={{ padding: '14px 28px', backgroundColor: 'blue', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', transition: 'background-color 0.3s ease', textDecoration:'none', marginTop: '30px', width: '100px' }}>Edit</Link>
-                </div>) : routines.filter((routine) => {
-                return search.toLowerCase() === '' ? routine : routine.name.toLowerCase().includes(search);
-                }).map(routine => <div className='routine' key={routine.id}>
+                    <button type="button" className="btn btn-outline-danger" onClick={()=>deleteRoutine(routine.id)} style={{ padding: '14px 28px', backgroundColor: 'red', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', transition: 'background-color 0.3s ease',textDecoration:'none', width: '100px', marginLeft:'30px'}}>Delete</button>
+                </div>) : (<div className='routine' key={routine.id}>
                     <h1>{routine.name}</h1>
                     <h2>Creator: {routine.creatorName}</h2>
                     <p className='goal'>Goal: {routine.goal}</p>
@@ -74,7 +93,7 @@ const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn}) => {
                             </li>
                         )}
                     </ul>
-                </div>)
+                </div>))
             }
         </div>
     </>

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const RoutinesPost = (token) => {
+const RoutinesPost = ({token}) => {
     const [name, setName] = useState("");
     const [goal, setGoal] = useState("");
     const [isPublic, setIsPublic] = useState(null);
@@ -29,7 +29,6 @@ const RoutinesPost = (token) => {
         
             const result = await response.json();
             console.log(result);
-            console.log(token);
             setPressed(true);
             if(result.name===name){
                 setSuccess(true);

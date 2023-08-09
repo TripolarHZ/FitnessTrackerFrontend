@@ -4,8 +4,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {
     Login,
     Me,
-    Register,
-    UsernameRoutines
+    Register
 } from './User';
 import{
     RoutineIDActivities,
@@ -56,11 +55,19 @@ const App = () => {
             }></Route>
             <Route path = "/routines" element=
             {
-                <RoutinesGet routines={routines} setRoutines={setRoutines} setRoutineId={setRoutineId} loggedIn={loggedIn}/>
+                <RoutinesGet routines={routines} setRoutines={setRoutines} routineId={routineId} setRoutineId={setRoutineId} loggedIn={loggedIn} user={user} token={token}/>
             }></Route>
             <Route path = "/create-routines" element =
             {
                 <RoutinesPost token={token}/>
+            }></Route>
+            <Route path = "/update-routines" element = 
+            {
+                <RoutinesPatch routineId={routineId} setRoutineId={setRoutineId} token={token} />
+            }></Route>
+            <Route path = "/me" element=
+            {
+                <Me setRoutineId={setRoutineId} token={token} user={user}/>
             }></Route>
         </Routes>
     </div>

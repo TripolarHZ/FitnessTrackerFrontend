@@ -19,7 +19,7 @@ export default function Navbar1({ setLoggedIn }) {
                     </Link>
                 </li>
                 <li className='active' style={{ marginLeft: '20px' }}>
-                    <Link to='/my-routines' style={{ textDecoration: 'none', color: '#FFD700' }}>
+                    <Link to='/me' style={{ textDecoration: 'none', color: '#FFD700' }}>
                         MY ROUTINES
                     </Link>
                 </li>

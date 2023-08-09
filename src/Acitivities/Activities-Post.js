@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const ActivitiesPost = (token) => {
+const ActivitiesPost = ({token}) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [success, setSuccess] = useState(false);
