@@ -1,16 +1,7 @@
 import { Link } from 'react-router-dom';
 import Home from './Home';
 
-export default function Navbar1({ setLoggedIn, setUser, setToken }) {
-    const handleLogout = () => {
-        // Clear the token from local storage
-        localStorage.removeItem('token');
-      
-        // Reset the authentication state
-        setLoggedIn(false);
-        setUser('');
-        setToken('');
-      };
+export default function Navbar1({handleLogout }) {
     return (
         <nav style={{ backgroundColor: '#1A237E', color: '#FFD700', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }} className="nav">
             <Link to="/" style={{ fontSize: '28px', textDecoration: 'none', color: '#FFD700', textTransform: 'uppercase', letterSpacing: '2px' }}>

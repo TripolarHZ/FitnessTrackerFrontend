@@ -22,7 +22,6 @@ const ActivitiesGet = ({activities, setActivities, setActivityId, loggedIn}) => 
                 console.log(result);
                 setActivities(result);
                 setActivityId(null);
-                return result
               } catch (err) {
                 console.error(err);
               }

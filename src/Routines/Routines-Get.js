@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn, userId, token}) => {
+const RoutinesGet = ({routines, setRoutines, loggedIn}) => {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
@@ -25,26 +25,6 @@ const RoutinesGet = ({routines, setRoutines, setRoutineId, loggedIn, userId, tok
         }
         fetchRoutines();
     },[]);
-
-    const deleteRoutine = async (routineIdToDelete) => {
-        try {
-            const response = await fetch(`${BASE_URL}/routines/${routineIdToDelete}`, {
-              method: "DELETE",
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              }
-            });
-            const result = await response.json();
-            console.log(result);
-            if(result.success===true){
-              const newRoutines = routines.filter(routine => routine.id !== routineIdToDelete);
-              setRoutines(newRoutines);
-            }
-          } catch (err) {
-            console.error(err);
-          }
-    }
 
     return <>
         <div className='routines'>

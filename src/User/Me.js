@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const Me = ({setRoutineId, token, user}) => {
+const Me = ({routineId, setRoutineId, token, user, setActivityId}) => {
     const [routines, setRoutines] = useState([]);
     const [username, setUsername] = useState("");
     const [id, setId] = useState("");
@@ -66,6 +66,28 @@ const Me = ({setRoutineId, token, user}) => {
         }
     }
 
+    const deleteActivity = async (activityIdToDelete) => {
+      try {
+          const response = await fetch(`${BASE_URL}/routine_activities/${activityIdToDelete}`, {
+            method: "DELETE",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          const result = await response.json();
+          console.log(result);
+          /*
+          if(result.success===true){
+            const newActivities = routines.map(routine => (routine.id === routineId) ? routine.activities.filter(activity => activity.id !== activityIdToDelete) : <p></p>);
+            setRoutines(newRoutines);
+          }
+          */
+        } catch (err) {
+          console.error(err);
+        }
+    }
+
     return<>
       <h1 style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: "60px" }}>Welcome {username}!</h1>
       <p style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontSize: "20px"  }}>User ID: {id}</p>
@@ -83,6 +105,8 @@ const Me = ({setRoutineId, token, user}) => {
                                     <p>{routineActivity.description}</p>
                                     <p style={{color: 'orange'}}>Duration: {routineActivity.duration}</p>
                                     <p style={{color: 'green'}}>Count: {routineActivity.count}</p>
+                                    <Link to='/routine-activities-patch' onClick={setActivityId(routineActivity.id)} style={{ padding: '14px 28px', backgroundColor: 'blue', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', transition: 'background-color 0.3s ease', textDecoration:'none', marginTop: '30px', width: '100px' }}>Edit</Link>
+                                    <button type="button" className="btn btn-outline-danger" onClick={()=>deleteActivity(routineActivity.id)} style={{ padding: '14px 28px', backgroundColor: 'red', border: 'none', color: '#fff', fontSize: '18px', cursor: 'pointer', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', transition: 'background-color 0.3s ease',textDecoration:'none', width: '100px', marginLeft:'30px'}}>Delete</button>
                                 </div>
                             </li>
                         )}

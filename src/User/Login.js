@@ -3,12 +3,18 @@ import {Link,Navigate} from 'react-router-dom';
 
 const BASE_URL = `https://fitnesstrac-kr.herokuapp.com/api`;
 
-const Login = ({setLoggedIn,setUser, setUserId, setToken}) => {
+const Login = ({setLoggedIn,setUser, setUserId}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [success, setSuccess] = useState(false);
   const [resultMessage, setResultMessage] = useState('');
   const [pressed, setPressed] = useState(false);
+
+  const handleRefreshAndRedirect = () => {
+    window.location.reload();
+    return <Navigate to="/" />;
+  };
+
   const login = async (ev) => {
     ev.preventDefault();
     try {
@@ -28,20 +34,19 @@ const Login = ({setLoggedIn,setUser, setUserId, setToken}) => {
       setPressed(true);
       if(result.message==="you're logged in!") {
         setSuccess(true);
-        setResultMessage(result.message);
         setLoggedIn(true);
-        setUser(result.user.username);
-        setUserId(result.user.id);
+        setResultMessage(result.message);
         setUsername('');
-        setToken(result.token);
+        setPassword('');
         localStorage.setItem('token', result.token);
-      }
-      else{
+        localStorage.setItem('user',result.user.username);
+        localStorage.setItem('userId',result.user.id);
+        window.location.reload()
+      }else{
         setSuccess(false);
         setResultMessage(result.message);
         setLoggedIn(false);
       }
-      setPassword('');
     } catch (err) {
       console.error(err);
     }
@@ -60,7 +65,7 @@ const Login = ({setLoggedIn,setUser, setUserId, setToken}) => {
       </form>
       {pressed ? (success ? <div style={{padding: '30px',backgroundColor:'blue',marginTop:'30px',borderRadius:'30px',textAlign:'center'}}>
       <p style={{fontSize:'25px',color:'white'}}>{resultMessage}</p>
-      <Navigate replace to='/' />
+      <Navigate to="/" />
       </div> : <div style={{padding: '30px',backgroundColor:'blue',marginTop:'30px',borderRadius:'30px',textAlign:'center'}}>
       <p style={{fontSize:'25px',color:'white'}}>{resultMessage}</p>
       <Link to='/login' onClick={()=>setPressed(false)} style={{marginTop:'20px',fontSize:'30px',color:'white',padding:'10px',backgroundColor:'coral',borderRadius:'10px',textDecoration:'none'}}>Try to login again</Link>

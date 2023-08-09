@@ -57,7 +57,7 @@ const RoutinesPost = ({token}) => {
             <p style={{fontSize:'25px',color:'white'}}>You have successfully created the routine!</p>
             <Link to='/routines' onClick={()=>setPressed(false)} style={{marginTop:'20px',fontSize:'30px',color:'white',padding:'10px',backgroundColor:'coral',borderRadius:'10px',textDecoration:'none'}}>Go Back To All Routines</Link>
             <p style={{fontSize:'25px',color:'white'}}>or</p>
-            <Link to='/my-routines' onClick={()=>setPressed(false)} style={{marginTop:'20px',fontSize:'30px',color:'white',padding:'10px',backgroundColor:'coral',borderRadius:'10px',textDecoration:'none'}}>Go To My Routines</Link>
+            <Link to='/me' onClick={()=>setPressed(false)} style={{marginTop:'20px',fontSize:'30px',color:'white',padding:'10px',backgroundColor:'coral',borderRadius:'10px',textDecoration:'none'}}>Go To My Routines</Link>
             </div> : <div style={{padding: '30px',backgroundColor:'red',marginTop:'30px',borderRadius:'30px',textAlign:'center'}}>
             <p style={{fontSize:'25px',color:'white'}}>{message}</p>
             </div>) : <p></p>}
